@@ -2,16 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "@/api"
 
 const initialState = {
-    user: null,
-    loading: false,
-    status: '',
-    isAuth: false
+    files: [],
+    currentDir: null,
+    popupDisplay: 'none'
 }
 
-export const UserSlice = createSlice({
-    name: 'userSlice',
+export const FileSlice= createSlice({
+    name: 'FileSlice',
     initialState,
     reducers: {
-
-    }
+        SetPopupDisplay: (state, action) => {
+            state.popupDisplay = action.payload
+        }
+    },
 })
+
+export const { SetPopupDisplay } = FileSlice.actions
+
+export default FileSlice.reducer
