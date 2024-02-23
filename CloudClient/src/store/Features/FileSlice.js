@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import api from "@/api"
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
     popupDisplay: 'none'
 }
 
-export const FileSlice= createSlice({
+export const FileSlice = createSlice({
     name: 'FileSlice',
     initialState,
     reducers: {
@@ -15,7 +15,44 @@ export const FileSlice= createSlice({
             state.popupDisplay = action.payload
         }
     },
+    // extraReducers: (builder) => {
+    //     builder
+    //         .addCase
+    // }
 })
+export const createFile = createAsyncThunk('create/files', async (params, thunkAPI) => {
+    try {
+        const token = localStorage.getItem('token')
+        const res = await api.post('/api/files', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res.data
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
+export const FileCheck = createAsyncThunk('api/files', async (params, thunkAPI) => {
+    try {
+        const res = await api.post('/api/files/parent', params)
+        localStorage.setItem('token', res.data.token)
+        return res.data
+    } catch (error) {
+        const message =
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+}
+)
 
 export const { SetPopupDisplay } = FileSlice.actions
 

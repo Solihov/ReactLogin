@@ -37,8 +37,9 @@ export const UserSlice = createSlice({
             localStorage.removeItem('token')
         }
     },
-    extraReducers: {
-        // builder
+    extraReducers: (builder) => {
+        builder
+            .addCase
     }
 })
 

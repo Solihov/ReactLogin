@@ -1,12 +1,12 @@
 import React from "react";
 
-const File = () => {
+const File = ({file}) => {
     return (
         <div className="file">
-            <img src="" alt="" />
-            <div className="file_name"></div>
-            <div className="file_date"></div>
-            <div className="file_size"></div>
+            <img src='' alt="" />
+            <div className="file_name">{file.name}</div>
+            <div className="file_date">{file.date}</div>
+            <div className="file_size">{file.size}</div>
             <button></button>
             <button></button>
         </div>
