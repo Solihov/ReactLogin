@@ -8,6 +8,31 @@ const initialState = {
     isAuth: false,
 }
 
+export const UserLogin = createAsyncThunk('user/login', async (params, thunkAPI) => {
+    try {
+        const res = await api.post('api/auth/login', params)
+        localStorage.setItem('token', res.data.token)
+        return res.data
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
+export const UserRegister = createAsyncThunk('user/register', async (params, thunkAPI) => {
+    try {
+        const res = await api.post('api/auth/registration', params)
+        return res.data
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const UserAuth = createAsyncThunk('user/auth', async (params, thunkAPI) => {
     try {
         const token = localStorage.getItem('token')
@@ -20,9 +45,9 @@ export const UserAuth = createAsyncThunk('user/auth', async (params, thunkAPI) =
         return res.data
 
     } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || 
-        error.message || 
-        error.toString()
+        const message = (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
@@ -39,9 +64,20 @@ export const UserSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase
+            .addCase(UserLogin.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(UserLogin.fulfilled, (state, action) => {
+                state.loading = false
+                state.isAuth = true
+                state.user = action.payload
+            })
+            .addCase(UserLogin.rejected, (state, action) => {
+                state.loading = false
+                state.isAuth = false
+            })
     }
 })
 
-export const {logOut} = UserSlice.actions
+export const { logOut } = UserSlice.actions
 export default UserSlice.reducer

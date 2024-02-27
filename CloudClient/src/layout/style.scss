@@ -1,0 +1,16 @@
+.header {
+    background: rgba(0, 0, 0, 0.169);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 200px;
+
+    &_menu {
+        display: flex;
+        list-style: none;
+
+        li {
+            margin: 0 20px;
+        }
+    }
+}
