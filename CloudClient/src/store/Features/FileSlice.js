@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import api from "@/api"
+import api from "./api"
 
 const initialState = {
     files: [],
     currentDir: null,
-    popupDisplay: 'none'
+    popUpDisplay: 'none',
+    loading: false
 }
 
 export const FileSlice = createSlice({
@@ -12,7 +13,7 @@ export const FileSlice = createSlice({
     initialState,
     reducers: {
         SetPopupDisplay: (state, action) => {
-            state.popupDisplay = action.payload
+            state.popUpDisplay = action.payload
         }
     },
     // extraReducers: (builder) => {
@@ -54,6 +55,6 @@ export const FileCheck = createAsyncThunk('api/files', async (params, thunkAPI) 
 }
 )
 
-export const { SetPopupDisplay } = FileSlice.actions
+export const { SetPopUpDisplay } = FileSlice.actions
 
 export default FileSlice.reducer
